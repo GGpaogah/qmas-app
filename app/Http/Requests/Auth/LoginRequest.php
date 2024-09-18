@@ -27,41 +27,42 @@ class LoginRequest extends FormRequest
     }
 
     public function authenticate(): void
-    {
-        $this->ensureIsNotRateLimited();
+{
+    $this->ensureIsNotRateLimited();
 
-        // Logging input email sebelum mencoba login
-        Log::info('Mencoba login dengan email:', ['email' => $this->input('email')]);
+    // Logging input email sebelum mencoba login
+    Log::info('Mencoba login dengan email:', ['email' => $this->input('email')]);
 
-        // Pengecekan apakah email terdaftar di dalam database
-        $user = User::where('email', $this->input('email'))->first();
-        
-        if (!$user) {
-            // Jika email tidak ditemukan, lemparkan exception dengan pesan khusus
-            throw ValidationException::withMessages([
-                'email' => 'Akun kamu belum terdaftar. Silahkan daftar dahulu.',
-            ]);
-        }
-
-        // Jika email ditemukan, coba autentikasi
-        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            // Logging ketika login gagal
-            Log::warning('Login gagal untuk email:', ['email' => $this->input('email')]);
-
-            throw ValidationException::withMessages([
-                'email' => 'Email atau password yang Anda masukkan salah.',
-            ]);
-        }
-
-        // Logging ketika login berhasil
-        Log::info('Login berhasil untuk email:', ['email' => $this->input('email')]);
-        
-
-        RateLimiter::clear($this->throttleKey());
+    // Pengecekan apakah email terdaftar di dalam database
+    $user = User::where('email', $this->input('email'))->first();
+    
+    if (!$user) {
+        // Jika email tidak ditemukan, lemparkan exception dengan pesan khusus
+        throw ValidationException::withMessages([
+            'email' => 'Akun kamu belum terdaftar. Silahkan daftar dahulu.',
+        ]);
     }
 
+    // Ambil status 'remember' dari request
+    $remember = $this->boolean('remember');
+
+    // Jika email ditemukan, coba autentikasi dengan 'remember me'
+    if (!Auth::attempt($this->only('email', 'password'), $remember)) {
+        RateLimiter::hit($this->throttleKey());
+
+        // Logging ketika login gagal
+        Log::warning('Login gagal untuk email:', ['email' => $this->input('email')]);
+
+        throw ValidationException::withMessages([
+            'email' => 'Email atau password yang Anda masukkan salah.',
+        ]);
+    }
+
+    // Logging ketika login berhasil
+    Log::info('Login berhasil untuk email:', ['email' => $this->input('email')]);
+
+    RateLimiter::clear($this->throttleKey());
+}
     public function ensureIsNotRateLimited(): void
     {
         if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {

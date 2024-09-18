@@ -13,141 +13,88 @@
     <style>
         /* CSS styles here */
         /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root {
-    --background-color: #ffffff;
-    --default-color: #444444;
-    --heading-color: #0a2a62;
-    --accent-color: #1b3bee;
-    --surface-color: #ffffff;
-    --contrast-color: #ffffff;
-}
-/* Smooth scroll */
-:root {
-    scroll-behavior: smooth;
-}
+/* Style Global */
 *,
 *:before,
-*:after{
-    padding: 0;
-    margin: 0;
+*:after {
     box-sizing: border-box;
 }
-body{
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
     background-color: #ffffff;
     overflow-x: hidden;
     overflow-y: hidden;
-}
-.background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
-.shape {
-    width: 200px;
-    height: 200px;
-    background: linear-gradient(135deg, #00bfff, #00ace5);
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(70px);
-}
-.shape:nth-child(1) {
-    top: -50px;
-    right: -50px;
-}
-.shape:nth-child(2) {
-    bottom: -50px;
-    left: -50px;
-}
-form{
-    height: 820px;
-    width: 400px;
-    background-color: #ffffff;
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
+
+form {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
     border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 50px 35px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
 }
-form *{
-    font-family: 'Poppins',sans-serif;
-    color: #4682B4;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
-}
-form h3{
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
+
+h3 {
     text-align: center;
-    color: #003040;
+    margin-bottom: 20px;
 }
-label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #4682B4;
-}
-input{
-    display: block;
-    height: 50px;
+
+input {
     width: 100%;
-    background-color: #f0faff;
+    padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #00bfff;
     border-radius: 13px;
-    padding: 0 10px;
-    margin-top: 5px;
-    font-size: 14px;
-    font-weight: 300;
 }
-::placeholder{
-    color: #4682B4;
+
+input:focus {
+    border-color: #00bfff; /* Menetapkan warna border yang diinginkan ketika fokus */
+    outline: none; /* Menghilangkan outline bawaan untuk fokus pada beberapa browser */
 }
-input:hover{
-    background-color: #ffffff;
-    color: #080710;
-}
-.btn-lg{
-    margin-top: 50px;
+
+button {
     width: 100%;
     background-color: #1E90FF;
-    color: #080710;
+    color: white;
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
+    cursor: pointer;
+    border: none;
 }
-button:hover{
+
+button:hover {
     background-color: #191970;
-    color: #ffffff;
-    cursor: pointer;
 }
-.tambahan{
-    margin-top: 30px;
+
+.tambahan {
+    margin-top: 10px;
     display: flex;
-}
-.batas{
-    margin-left: 5px;
-    margin-right: 5px;
-}
-.batas, .daftar, .forget{
+    justify-content: space-between;
+    font-size: 14px;
     color: #1E90FF;
-}
-.daftar:hover, .forget:hover{
-    color: #191970;
     cursor: pointer;
 }
+
+.tambahan a:hover {
+    color: #191970;
+}
+
+.alert{
+    color: red;
+}
+
+
     </style>
 </head>
 <body>

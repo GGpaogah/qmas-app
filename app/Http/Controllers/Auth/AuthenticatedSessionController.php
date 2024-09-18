@@ -44,17 +44,22 @@ class AuthenticatedSessionController extends Controller
     }
 
     public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
-        
+{
+    // Log email sebelum melakukan logout
+    if ($request->user()) {
         Log::info('User logout:', ['email' => $request->user()->email]);
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('login');
-        
+    } else {
+        Log::info('User logout: Unknown (user session already invalidated)');
     }
+
+    // Kemudian lakukan proses logout
+    Auth::guard('web')->logout();
+
+    // Invalidate the session and regenerate token
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('login');
+}
     
 }
