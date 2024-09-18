@@ -26,20 +26,69 @@ class CreateUsersSeeder extends Seeder
                 'alamat'=>'',
                 'usertype'=>'user',
                 'password'=> Hash::make('123456'),
-                'remember_token' => Str::random(10),
+                'remember_token' => Str::random(100),
                 'email_verified_at' => now(),
             ],
 
             [
-               'name'=>'Admin',
-               'email'=>'admin@gmail.com',
+               'name'=>'AdminBabat',
+               'email'=>'adminbabat@gmail.com',
                'telepon'=>'',
-               'alamat'=>'',
+               'alamat'=>'Gudang Babat',
                'usertype'=>'admin',
+               'gudang'=>'babat', //default dari admin adalah gudang babat
                'password'=> Hash::make('123456'),
-               'remember_token' => Str::random(10),
+               'remember_token' => Str::random(100),
                'email_verified_at' => now(),
             ],
+
+            [
+                'name'=>'AdminCenggerAyam',
+                'email'=>'admincengger@gmail.com',
+                'telepon'=>'',
+                'alamat'=>'Gudang Cenger Ayam',
+                'usertype'=>'admin',
+                'gudang'=>'cengger', //default dari admin adalah gudang cengger ayam
+                'password'=> Hash::make('123456'),
+                'remember_token' => Str::random(100),
+                'email_verified_at' => now(),
+             ],
+
+             [
+                'name'=>'AdminKalimetro',
+                'email'=>'adminkalimetro@gmail.com',
+                'telepon'=>'',
+                'alamat'=>'Gudang Kalimetro',
+                'usertype'=>'admin',
+                'gudang'=>'kalimetro', //default dari admin adalah gudang kalimetro
+                'password'=> Hash::make('123456'),
+                'remember_token' => Str::random(100),
+                'email_verified_at' => now(),
+             ],
+
+             [
+                'name'=>'AdminNganjuk',
+                'email'=>'adminnganjuk@gmail.com',
+                'telepon'=>'',
+                'alamat'=>'Gudang Nganjuk',
+                'usertype'=>'admin',
+                'gudang'=>'nganjuk', //default dari admin adalah gudang nganjuk
+                'password'=> Hash::make('123456'),
+                'remember_token' => Str::random(100),
+                'email_verified_at' => now(),
+             ],
+
+             [
+                'name'=>'AdminTuren',
+                'email'=>'adminturen@gmail.com',
+                'telepon'=>'',
+                'alamat'=>'Gudang Turen',
+                'usertype'=>'admin',
+                'gudang'=>'turen', //default dari admin adalah gudang turen
+                'password'=> Hash::make('123456'),
+                'remember_token' => Str::random(100),
+                'email_verified_at' => now(),
+             ],
             
             [
                'name'=>'Superadmin',
@@ -48,7 +97,7 @@ class CreateUsersSeeder extends Seeder
                'alamat'=>'',
                'usertype'=>'superadmin',
                'password'=> Hash::make('123456'),
-               'remember_token' => Str::random(10),
+               'remember_token' => Str::random(100),
                'email_verified_at' => now(),
             ],
 

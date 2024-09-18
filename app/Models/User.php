@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'alamat',
         'usertype',
         'password',
+        'gudang',
     ];
 
     /**

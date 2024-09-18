@@ -57,6 +57,7 @@ class LoginRequest extends FormRequest
 
         // Logging ketika login berhasil
         Log::info('Login berhasil untuk email:', ['email' => $this->input('email')]);
+        
 
         RateLimiter::clear($this->throttleKey());
     }

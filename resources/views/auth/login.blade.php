@@ -202,6 +202,12 @@ button:hover{
         </div>
     @enderror
 
+    <!-- Remember Me Checkbox -->
+    <div>
+        <input type="checkbox" name="remember" id="remember">
+        <label for="remember">Ingat Saya</label>
+    </div>
+
     <button type="submit" class="btn btn-primary btn-lg" id="button-login">{{ __('Log in') }}</button>
 
     <div class="tambahan">
