@@ -119,30 +119,32 @@
                     </div>
                     <!-- Success Alert -->
                     @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     @endif
 
                     <!-- Error Alert -->
                     @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     @endif
 
                     <!-- Validation Errors Alert -->
                     @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    @if ($error != 'Stok tidak mencukupi untuk transaksi ini.') <!-- Opsi untuk menghindari duplikasi -->
+                                        <li>{{ $error }}</li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     @endif
 
                     <div class="col-lg-12 mb-4">
@@ -212,11 +214,11 @@
                                         <div class="col-sm-3">
                                             <select class="form-select" id="tujuan_gudang_mutasi" name="tujuan_gudang_mutasi" required>
                                                 <option disabled selected value="">Pilih Gudang Tujuan</option>
-                                                <option value="Gudang Babat">Gudang Babat</option>
-                                                <option value="Gudang Turen">Gudang Turen</option>
-                                                <option value="Gudang Kalimetro">Gudang Kalimetro</option>
-                                                <option value="Gudang Cengger">Gudang Cengger</option>
-                                                <option value="Gudang Nganjuk">Gudang Nganjuk</option>
+                                                <option value="babat">Gudang Babat</option>
+                                                <option value="turen">Gudang Turen</option>
+                                                <option value="kalimetro">Gudang Kalimetro</option>
+                                                <option value="cengger">Gudang Cengger</option>
+                                                <option value="nganjuk">Gudang Nganjuk</option>
                                             </select>
                                         </div>
                                     </div>
@@ -250,6 +252,14 @@
                                         <label for="rusak_retur_ke_pabrik" class="col-sm-2 col-form-label">Rusak Retur Ke Pabrik</label>
                                         <div class="col-sm-3">
                                             <input type="text" inputmode="numeric" class="form-control" id="rusak_retur_ke_pabrik" name="rusak_retur_ke_pabrik" placeholder="Rusak Retur Ke Pabrik" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Keterangan -->
+                                    <div class="form-group row mt-3">
+                                        <label for="keterangan" class="col-sm-2 col-form-label">Keterangan</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" inputmode="numeric" class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan">
                                         </div>
                                     </div>
 
@@ -290,7 +300,7 @@
                 var alert = new bootstrap.Alert(alertElement);
                 alert.close();
             }
-        }, 10000); // 3000 milliseconds = 3 seconds
+        }, 10000); // 10000 milliseconds = 10 seconds
 
         // Update Tujuan Gudang Mutasi dropdown based on selected Gudang
         document.addEventListener('DOMContentLoaded', function () {

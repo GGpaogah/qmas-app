@@ -6,6 +6,7 @@ use App\Models\StokMasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class GudangMasukController extends Controller
 {
@@ -18,7 +19,7 @@ class GudangMasukController extends Controller
     // Menyimpan data stok masuk ke dalam database
     public function storeStokMasuk(Request $request)
     {
-        // Validate incoming request
+        // Validasi input
         $validatedData = $request->validate([
             'gudang' => 'required|string|max:255',
             'jumlah_dari_pabrik' => 'required|integer',
@@ -26,6 +27,7 @@ class GudangMasukController extends Controller
             'tipe_produk' => 'required|string|max:255',
             'retur_konsumen' => 'required|integer',
             'barang_repack' => 'required|integer',
+            
         ], [
             'gudang.required' => 'Gudang harus dipilih.',
             'jumlah_dari_pabrik.required' => 'Jumlah dari pabrik harus diisi.',
@@ -35,35 +37,35 @@ class GudangMasukController extends Controller
             'barang_repack.required' => 'Barang repack harus diisi.',
         ]);
 
-        $gudang = $request->input('gudang');
+        $gudang = strtolower($request->input('gudang'));
         $tipeProduk = $request->input('tipe_produk');
         $stokMasuk = new StokMasuk([], $gudang);
 
-        // Calculate total quantity = sum of inputs
+        // Hitung total quantity
         $jumlah = $request->input('jumlah_dari_pabrik')
                 + $request->input('jumlah_dari_mutasi')
                 + $request->input('retur_konsumen')
                 + $request->input('barang_repack');
 
-        // Retrieve previous stock for the same product type from the most recent entry
+        // Ambil stok akhir sebelumnya untuk tipe produk yang sama
         $stokSebelumnya = $stokMasuk->where('tipe_produk', $tipeProduk)->orderBy('tanggal', 'desc')->value('stok_akhir') ?? 0;
 
-        // Calculate new stock for the same product type
+        // Hitung stok akhir baru
         $stokAkhir = $stokSebelumnya + $jumlah;
 
-        // Calculate total keseluruhan (sum of stok_akhir for all product types)
+        // Hitung total keseluruhan stok
         $totalKeseluruhan = DB::table('stok_masuk_' . $gudang)->sum('stok_akhir') + $stokAkhir;
 
         DB::beginTransaction();
 
         try {
-            // Insert new stok masuk record
+            // Insert record stok masuk baru
             $stokMasuk->create([
                 'tanggal' => now(),
                 'jumlah_dari_pabrik' => $request->input('jumlah_dari_pabrik'),
                 'jumlah_dari_mutasi' => $request->input('jumlah_dari_mutasi'),
-                'tipe_produk' => $request->input('tipe_produk'),
-                'nama_gudang_mutasi' => $request->input('nama_gudang_mutasi'),
+                'tipe_produk' => $tipeProduk,
+                'nama_gudang_mutasi' => $request->input('nama_gudang_mutasi'), // Pastikan field ini ada di form
                 'retur_konsumen' => $request->input('retur_konsumen'),
                 'barang_repack' => $request->input('barang_repack'),
                 'jumlah' => $jumlah,
@@ -71,14 +73,18 @@ class GudangMasukController extends Controller
                 'total_keseluruhan' => $totalKeseluruhan, // Total keseluruhan stok untuk semua produk
             ]);
 
+            // Update semua entri dengan tipe_produk yang sama untuk stok_akhir
+            DB::table('stok_masuk_' . $gudang)
+                ->where('tipe_produk', $tipeProduk)
+                ->update(['stok_akhir' => $stokAkhir]);
+
             DB::commit();
 
             return redirect()->back()->with('success', 'Stok Masuk berhasil disimpan.');
-
         } catch (\Exception $e) {
             DB::rollback();
 
-            return redirect()->back()->withErrors(['error' => 'Gagal menyimpan stok masuk: ' . $e->getMessage()]);
+            return redirect()->back()->with(['error' => 'Gagal menyimpan stok masuk: ' . $e->getMessage()]);
         }
     }
 }

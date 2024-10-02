@@ -9,6 +9,7 @@ class StokMasuk extends Model
 {
     use HasFactory;
 
+    // Remove the constructor and set the default table name to null
     protected $table;
 
     protected $fillable = [
@@ -22,6 +23,8 @@ class StokMasuk extends Model
         'jumlah',
         'stok_akhir',
         'total_keseluruhan',
+
+        
     ];
 
     public function __construct(array $attributes = [], $gudang = null)
@@ -30,8 +33,7 @@ class StokMasuk extends Model
 
         // Tentukan tabel secara dinamis berdasarkan gudang
         if ($gudang) {
-            $this->setTable("stok_masuk_" . strtolower($gudang)); // Gunakan nama tabel berdasarkan gudang
+            $this->setTable('stok_masuk_' . strtolower($gudang));
         }
     }
-
 }

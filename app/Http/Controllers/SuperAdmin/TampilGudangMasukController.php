@@ -71,32 +71,38 @@ class TampilGudangMasukController extends Controller
         ]);
     }
 
-    // Fungsi untuk memperbarui stok masuk
-    public function update(Request $request, $gudang, $id)
-    {
-        // Validasi input
-        $request->validate([
-            'tipe_produk' => 'required|string',
-            'jumlah_dari_pabrik' => 'required|numeric',
-            'jumlah_dari_mutasi' => 'required|numeric',
-            'nama_gudang_mutasi' => 'required|string',
-            'retur_konsumen' => 'required|numeric',
-            'barang_repack' => 'required|numeric',
-        ]);
+// Fungsi untuk memperbarui stok masuk
+public function update(Request $request, $gudang, $id)
+{
+    $request->validate([
+        'tipe_produk' => 'required|string',
+        'jumlah_dari_pabrik' => 'required|numeric',
+        'jumlah_dari_mutasi' => 'required|numeric',
+        'nama_gudang_mutasi' => 'required|string',
+        'retur_konsumen' => 'required|numeric',
+        'barang_repack' => 'required|numeric',
+    ]);
 
-        // Hitung nilai jumlah
-        $jumlah = $request->jumlah_dari_pabrik + $request->jumlah_dari_mutasi + $request->retur_konsumen + $request->barang_repack;
+    // Hitung jumlah baru dari input yang diterima
+    $jumlahBaru = $request->jumlah_dari_pabrik + $request->jumlah_dari_mutasi + $request->retur_konsumen + $request->barang_repack;
 
-        // Ambil stok sebelumnya dari entri stok terakhir (urutkan berdasarkan tanggal)
-        $stokSebelumnya = DB::table('stok_masuk_' . $gudang)
-            ->where('id', '<>', $id) // Tidak termasuk stok yang sedang diedit
-            ->orderBy('tanggal', 'desc')
-            ->value('stok_akhir') ?? 0;
+    // Ambil data stok lama dari database berdasarkan ID
+    $stokLama = DB::table('stok_masuk_' . $gudang)->where('id', $id)->first();
 
-        // Hitung stok akhir
-        $stokAkhir = $stokSebelumnya + $jumlah;
+    if (!$stokLama) {
+        return redirect()->back()->with('error', 'Data stok tidak ditemukan.');
+    }
 
-        // Update data stok di database
+    // Hitung selisih antara jumlah lama dan jumlah baru
+    $selisihJumlah = $jumlahBaru - $stokLama->jumlah;
+
+    // Hitung stok akhir baru dengan menambahkan selisih ke stok akhir yang ada
+    $stokAkhirBaru = $stokLama->stok_akhir + $selisihJumlah;
+
+    DB::beginTransaction();
+
+    try {
+        // Update record yang sedang diedit
         DB::table('stok_masuk_' . $gudang)
             ->where('id', $id)
             ->update([
@@ -106,11 +112,36 @@ class TampilGudangMasukController extends Controller
                 'nama_gudang_mutasi' => $request->nama_gudang_mutasi,
                 'retur_konsumen' => $request->retur_konsumen,
                 'barang_repack' => $request->barang_repack,
-                'jumlah' => $jumlah,
-                'stok_akhir' => $stokAkhir,
+                'jumlah' => $jumlahBaru,
+                'stok_akhir' => $stokAkhirBaru,
+                'updated_at' => now(),
             ]);
 
-        // Redirect kembali ke halaman stok dengan pesan sukses
+        // Update stok_akhir untuk semua entri dengan tipe_produk yang sama menjadi stok akhir yang baru dihitung sekali saja
+        DB::table('stok_masuk_' . $gudang)
+            ->where('tipe_produk', $request->tipe_produk)
+            ->update(['stok_akhir' => $stokAkhirBaru]);
+
+        // Hitung ulang total keseluruhan untuk semua produk (hanya sekali untuk semua stok_akhir tipe produk yang dipilih)
+        $totalKeseluruhanProduk = DB::table('stok_masuk_' . $gudang)
+            ->distinct()
+            ->sum('stok_akhir');
+
+        // Ambil ID terakhir atau terbaru
+        $idTerbaru = DB::table('stok_masuk_' . $gudang)->max('id');
+
+        // Update total keseluruhan pada entri terbaru saja
+        DB::table('stok_masuk_' . $gudang)
+            ->where('id', $idTerbaru)
+            ->update(['total_keseluruhan' => $totalKeseluruhanProduk]);
+
+        DB::commit();
+
         return redirect()->route('superadmin.stok.tampil', ['gudang' => $gudang])->with('success', 'Data stok berhasil diperbarui.');
+    } catch (\Exception $e) {
+        DB::rollback();
+        return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui stok: ' . $e->getMessage());
+        }
     }
+
 }

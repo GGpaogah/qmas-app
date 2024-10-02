@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class ManageUserController extends Controller
 {
@@ -35,6 +36,7 @@ class ManageUserController extends Controller
             'alamat' => 'required|string|max:255',
             'password' => 'required|confirmed|min:8',
             'usertype' => 'required|in:user,admin,superadmin',
+            'gudang' => $request->usertype === 'admin' ? 'required|string' : 'nullable',
         ]);
 
         // Create the user
@@ -45,6 +47,8 @@ class ManageUserController extends Controller
             'alamat' => $request->alamat,
             'password' => Hash::make($request->password),
             'usertype' => $request->usertype,
+            'gudang' => $request->gudang,
+            'remember_token' => Str::random(100),
         ]);
 
         return redirect()->route('superadmin.manage-users.index')->with('success', 'Akun berhasil ditambahkan');
@@ -55,8 +59,8 @@ class ManageUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'telepon' => 'required|string|max:15',
-            'alamat' => 'required|string|max:255',
+            'telepon' => 'nullable|string|max:15',
+            'alamat' => 'nullable|string|max:255',
             'usertype' => 'required|in:user,admin,superadmin',
             'password' => 'nullable|string|min:8',
         ]);
@@ -67,7 +71,9 @@ class ManageUserController extends Controller
             'telepon' => $request->telepon,
             'alamat' => $request->alamat,
             'usertype' => $request->usertype,  // Update the role (usertype)
+            'gudang' => $request->gudang,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
+            'remember_token' => Str::random(100),
         ]);
     
         return redirect()->route('superadmin.manage-users.index')->with('success', 'User updated successfully.');

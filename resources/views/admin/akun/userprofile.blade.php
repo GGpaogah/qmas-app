@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Profile - QMAS</title>
     <meta name="description" content="Produk Air Siap Minum QMAS">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="{{ asset('assets/fontawesome-6.6.0/css/all.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome-all.min.css') }}">
@@ -60,22 +60,30 @@
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('superadmin.dashboard') }}" :active="request()->routeIs('superadmin.dashboard')"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                        <a class="nav-link" href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('profile.userprofile') ? 'active' : '' }} active" href="{{ route('profile.userprofile') }}"><i class="fas fa-user"></i><span>Akun</span></a>
+                        <a class="nav-link {{ Request::is('admin.profile.edit') ? 'active' : '' }} active" href="{{ route('admin.profile.edit') }}"><i class="fas fa-user"></i><span>Akun</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('superadmin.manage-users.index') }}" :active="request()->routeIs('superadmin.manage-users.index')"><i class="fas fa-users"></i><span>Manajemen Akun</span></a>
+                        <a class="nav-link" href="{{ route('admin.stok.index') }}">
+                            <i class="fa-sharp fa-solid fa-warehouse"></i><span>Stok Masuk Gudang</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('superadmin.stok.index') }}"><i class="fa-sharp fa-regular fa-warehouse-full"></i><span>Stok Masuk Gudang</span></a>
+                        <a class="nav-link" href="{{ route('admin.stok.keluar.index') }}">
+                            <i class="fa-sharp fa-regular fa-warehouse-full"></i><span>Stok Keluar Gudang</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('superadmin.stok.create') }}" :active="request()->routeIs('superadmin.stok.create')"><i class="fa fa-archive"></i><span>Tambah Data Stok Masuk</span></a>
+                        <a class="nav-link" href="{{ route('admin.stok.create') }}">
+                            <i class="fa-solid fa-inbox-in"></i><span>Tambah Data Stok Masuk</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('superadmin.stok.create') }}" :active="request()->routeIs('superadmin.stok.create')"><i class="fa fa-archive"></i><span>Tambah Data Stok Keluar</span></a>
+                        <a href="{{ route('admin.stok.out') }}" class="nav-link">
+                        <i class="fa-solid fa-inbox-out"></i><span>Tambah Data Stok Keluar</span>
+                        </a>
                     </li>
                 </ul>
                 <div class="text-center d-none d-md-inline">
@@ -99,7 +107,7 @@
                                     <img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg">
                                 </a>
                                 <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                                    <a class="dropdown-item" href="{{ route('profile.userprofile') }}" :active="request()->routeIs('profile.userprofile')">
+                                    <a class="dropdown-item" href="{{ route('admin.profile.edit') }}" :active="request()->routeIs('admin.profile.edit')">
                                         <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Akun
                                     </a>
                                     <form method="POST" action="{{ route('logout') }}">
@@ -126,7 +134,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Update Profile</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" action="{{ route('profile.update') }}">
+                                    <form method="POST" action="{{ route('admin.profile.update') }}">
                                         @csrf
                                         @method('PUT')
                                         
@@ -179,7 +187,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Update Password</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" action="{{ route('password.update') }}">
+                                    <form method="POST" action="{{ route('admin.profile.password.update') }}">
                                         @csrf
                                         @method('PUT')
                                         <div class="form-group row">
@@ -224,7 +232,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Delete Account</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" action="{{ route('profile.destroy') }}">
+                                    <form method="POST" action="{{ route('admin.profile.destroy') }}">
                                         @csrf
                                         @method('DELETE')
                                         <div class="form-group row">
@@ -251,16 +259,18 @@
                 <footer class="bg-white sticky-footer">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright © QMAS 2024</span>
+                            <span>QMAS &copy; Your Website 2024</span>
                         </div>
                     </div>
                 </footer>
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/theme.js"></script>
+    <!-- Scripts -->
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/theme.js') }}"></script>
+    <script src="{{ asset('assets/js/chart.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bs-init.js') }}"></script>
 </body>
 
 </html>

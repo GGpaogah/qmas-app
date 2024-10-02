@@ -63,7 +63,7 @@ return new class extends Migration
             $table->string('usertype')->default('user');
             // $table->tinyInteger('type')->default(0);
             /* Users: 0=>User, 1=>Admin, 2=>Superadmin */
-            $table->string('gudang')->nullable(); // Gudang terkait dengan admin pergudang
+            $table->string('gudang')->nullable(); // Gudang terkait dengan admin pergudang baik itu babat,cengger,kalimetro,turen,ganjuk
             $table->rememberToken();
             $table->timestamps();
         });

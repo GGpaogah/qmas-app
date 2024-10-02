@@ -5,7 +5,8 @@
 <head>
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/fontawesome-6.6.0/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome-all.min.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,6 +62,20 @@ input:focus {
     outline: none; /* Menghilangkan outline bawaan untuk fokus pada beberapa browser */
 }
 
+.input-container {
+            position: relative;
+        }
+
+        /* Position the eye icon inside the input field */
+        .field-icon {
+            position: absolute;
+            right: 10px;
+            top: 55%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            z-index: 1;
+        }
+
 button {
     width: 100%;
     background-color: #1E90FF;
@@ -115,11 +130,29 @@ button:hover {
         <label for="email">{{ __('Nomor') }}</label>
         <input type="tel" placeholder="Masukkan Nomor" id="number" name="number" maxlength="13" value="{{ old('email') }}" required>
 
-        <label for="password">{{ __('Password') }}</label>
-        <input type="password" placeholder="Masukkan Password" id="password" name="password" required autocomplete="new-password">
+        <!-- Validation Error for Password -->
+        <div class="input-container">
+           <label for="password">{{ __('Password') }}</label>
+           <input type="password" placeholder="Masukkan Password" id="password" name="password" required autocomplete="new-password">
+           <span toggle="#password" class="fa-solid fa-eye field-icon toggle-password"></span>
+           @error('password')
+               <div class="alert alert-danger mb-4">
+                   {{ $message }}
+               </div>
+           @enderror
+        </div>
 
-        <label for="password_confirmation">{{ __('Confirm Password') }}</label>
-        <input type="password" placeholder="Konfirmasi Password" id="password_confirmation" name="password_confirmation" required autocomplete="new-password">
+        
+        <div class="input-container">
+           <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+           <input type="password" placeholder="Konfirmasi Password" id="password_confirmation" name="password_confirmation" required autocomplete="new-password">
+           <span toggle="#password_confirmation" class="fa-solid fa-eye field-icon toggle-confirm-password"></span>
+           @error('password')
+               <div class="alert alert-danger mb-4">
+                   {{ $message }}
+               </div>
+           @enderror
+        </div>
 
         <button type="submit" class="btn btn-primary btn-lg">{{ __('Register') }}</button>
 
@@ -127,5 +160,30 @@ button:hover {
             <a class="login" href="{{ route('login') }}">{{ __('Sudah punya akun?') }}</a>
         </div>
     </form>
+    <script>
+        document.querySelector(".toggle-password").addEventListener('click', function() {
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+            var input = document.querySelector(this.getAttribute("toggle"));
+            if (input.getAttribute("type") === "password") {
+                input.setAttribute("type", "text");
+            } else {
+                input.setAttribute("type", "password");
+            }
+        });
+
+        document.querySelector(".toggle-confirm-password").addEventListener('click', function() {
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+            var input = document.querySelector(this.getAttribute("toggle"));
+            if (input.getAttribute("type") === "password") {
+                input.setAttribute("type", "text");
+            } else {
+                input.setAttribute("type", "password");
+            }
+        });
+
+    </script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 </body>
 </html>

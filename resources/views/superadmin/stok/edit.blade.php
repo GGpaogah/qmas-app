@@ -194,11 +194,11 @@
                                 <div class="mb-3">
                                     <label for="nama_gudang_mutasi" class="form-label">Asal Gudang Mutasi</label>
                                     <select class="form-select" id="nama_gudang_mutasi" name="nama_gudang_mutasi" required>
-                                        <option value="Gudang Babat" {{ $stok->nama_gudang_mutasi == 'Gudang Babat' ? 'selected' : '' }}>Gudang Babat</option>
-                                        <option value="Gudang Turen" {{ $stok->nama_gudang_mutasi == 'Gudang Turen' ? 'selected' : '' }}>Gudang Turen</option>
-                                        <option value="Gudang Kalimetro" {{ $stok->nama_gudang_mutasi == 'Gudang Kalimetro' ? 'selected' : '' }}>Gudang Kalimetro</option>
-                                        <option value="Gudang Cengger" {{ $stok->nama_gudang_mutasi == 'Gudang Cengger' ? 'selected' : '' }}>Gudang Cengger</option>
-                                        <option value="Gudang Nganjuk" {{ $stok->nama_gudang_mutasi == 'Gudang Nganjuk' ? 'selected' : '' }}>Gudang Nganjuk</option>
+                                        <option value="babat" {{ $stok->nama_gudang_mutasi == 'babat' ? 'selected' : '' }}>Gudang Babat</option>
+                                        <option value="turen" {{ $stok->nama_gudang_mutasi == 'turen' ? 'selected' : '' }}>Gudang Turen</option>
+                                        <option value="kalimetro" {{ $stok->nama_gudang_mutasi == 'kalimetro' ? 'selected' : '' }}>Gudang Kalimetro</option>
+                                        <option value="cengger" {{ $stok->nama_gudang_mutasi == 'cengger' ? 'selected' : '' }}>Gudang Cengger</option>
+                                        <option value="nganjuk" {{ $stok->nama_gudang_mutasi == 'nganjuk' ? 'selected' : '' }}>Gudang Nganjuk</option>
                                     </select>
                                 </div>
 

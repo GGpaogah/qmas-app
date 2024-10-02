@@ -187,6 +187,17 @@
                                     </select>
                                 </div>
 
+                                <div class="mb-3" id="gudang-group">
+                                    <label for="gudang" class="form-label">Gudang</label>
+                                    <select class="form-control" id="gudang" name="gudang">
+                                        <option value="babat" {{ old('gudang') == 'babat' ? 'selected' : '' }}>Babat</option>
+                                        <option value="cengger" {{ old('gudang') == 'cengger' ? 'selected' : '' }}>Cengger Ayam</option>
+                                        <option value="kalimetro" {{ old('gudang') == 'kalimetro' ? 'selected' : '' }}>Kalimetro</option>
+                                        <option value="nganjuk" {{ old('gudang') == 'nganjuk' ? 'selected' : '' }}>Nganjuk</option>
+                                        <option value="turen" {{ old('gudang') == 'turen' ? 'selected' : '' }}>Turen</option>
+                                    </select>
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" required>
@@ -218,6 +229,29 @@
     <!-- Scripts -->
     <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/theme.js') }}"></script>
+
+    <script>
+    // Fungsi untuk mengatur tampilan gudang berdasarkan role
+    function toggleGudangField() {
+        var usertype = document.getElementById('usertype').value;
+        var gudangGroup = document.getElementById('gudang-group');
+        
+        // Jika usertype adalah 'admin', tampilkan field gudang, jika tidak, sembunyikan
+        if (usertype === 'admin') {
+            gudangGroup.style.display = 'block';
+        } else {
+            gudangGroup.style.display = 'none';
+        }
+    }
+
+    // Jalankan saat halaman dimuat, dan setiap kali usertype diubah
+    document.getElementById('usertype').addEventListener('change', toggleGudangField);
+
+    // Inisialisasi saat halaman pertama kali dibuka
+    window.onload = function() {
+        toggleGudangField(); // Untuk menampilkan/menyembunyikan gudang saat halaman dimuat
+    };
+</script>
 </body>
 
 </html>

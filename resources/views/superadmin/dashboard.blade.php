@@ -138,9 +138,11 @@
                 </nav>
                 <div class="container-fluid">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0">Dashboard</h3>
+                        <h3 class="text-dark mb-0">
+                        Dashboard {{ isset($name) ? ucfirst($name) : 'Nama Tidak Ditemukan' }}
+                        </h3>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6 col-xl-3 mb-4">
                             <div class="card shadow border-start-primary py-2">
                                 <div class="card-body">
@@ -188,8 +190,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-xl-3 mb-4">
+                        </div> -->
+                        <!-- <div class="col-md-6 col-xl-3 mb-4">
                             <div class="card shadow border-start-warning py-2">
                                 <div class="card-body">
                                     <div class="row align-items-center no-gutters">
@@ -202,8 +204,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+                    </div> -->
+                    <!-- <div class="row">
                         <div class="col-lg-12 col-xl-8 flex-grow-1">
                             <div class="card shadow mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -233,8 +235,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+                    </div> -->
+                    <!-- <div class="row">
                         <div class="col-lg-12 flex-grow-1 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -264,7 +266,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <footer class="bg-white sticky-footer">

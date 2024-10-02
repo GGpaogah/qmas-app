@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stok_masuk_babat', function (Blueprint $table) {
             $table->id();  // Auto-increment primary key
-            $table->timestamp('tanggal')->useCurrent()->useCurrentOnUpdate();  // Default timestamp
+            $table->timestamp('tanggal')->useCurrent();  // Default timestamp
             $table->integer('jumlah_dari_pabrik');  // Integer without length parameter
             $table->integer('jumlah_dari_mutasi');  // Integer without length parameter
             $table->string('tipe_produk', 255);  // String with length
@@ -28,7 +28,7 @@ return new class extends Migration
 
         Schema::create('stok_masuk_cengger_ayam', function (Blueprint $table) {
             $table->id();  // Auto-increment primary key
-            $table->timestamp('tanggal')->useCurrent()->useCurrentOnUpdate();  // Default timestamp
+            $table->timestamp('tanggal')->useCurrent();  // Default timestamp
             $table->integer('jumlah_dari_pabrik');  // Integer without length parameter
             $table->integer('jumlah_dari_mutasi');  // Integer without length parameter
             $table->string('tipe_produk', 255);  // String with length
@@ -43,7 +43,7 @@ return new class extends Migration
 
         Schema::create('stok_masuk_kalimetro', function (Blueprint $table) {
             $table->id();  // Auto-increment primary key
-            $table->timestamp('tanggal')->useCurrent()->useCurrentOnUpdate();  // Default timestamp
+            $table->timestamp('tanggal')->useCurrent();  // Default timestamp
             $table->integer('jumlah_dari_pabrik');  // Integer without length parameter
             $table->integer('jumlah_dari_mutasi');  // Integer without length parameter
             $table->string('tipe_produk', 255);  // String with length
@@ -58,11 +58,11 @@ return new class extends Migration
 
         Schema::create('stok_masuk_nganjuk', function (Blueprint $table) {
             $table->id();  // Auto-increment primary key
-            $table->timestamp('tanggal')->useCurrent()->useCurrentOnUpdate();  // Default timestamp
+            $table->timestamp('tanggal')->useCurrent();  // Default timestamp
             $table->integer('jumlah_dari_pabrik');  // Integer without length parameter
             $table->integer('jumlah_dari_mutasi');  // Integer without length parameter
             $table->string('tipe_produk', 255);  // String with length
-            $table->string('nama_gudang_mutasi', 255);  // String with length
+            $table->string('nama_gudang_mutasi', 255)->default('Tidak ada mutasi');  // String with length
             $table->integer('retur_konsumen');  // Integer without length parameter
             $table->integer('barang_repack');  // Integer without length parameter
             $table->integer('jumlah');  // Integer without length parameter
@@ -73,7 +73,7 @@ return new class extends Migration
 
         Schema::create('stok_masuk_turen', function (Blueprint $table) {
             $table->id();  // Auto-increment primary key
-            $table->timestamp('tanggal')->useCurrent()->useCurrentOnUpdate();  // Default timestamp
+            $table->timestamp('tanggal')->useCurrent();  // Default timestamp
             $table->integer('jumlah_dari_pabrik');  // Integer without length parameter
             $table->integer('jumlah_dari_mutasi');  // Integer without length parameter
             $table->string('tipe_produk', 255);  // String with length

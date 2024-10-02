@@ -103,16 +103,16 @@ button:hover {
     color: #191970;
 }
 
-.alert{
-    color: red;
+.status{
+    color: green;
 }
 
 
     </style>
 </head>
-<!-- Session Status -->
-<x-auth-session-status class="mb-4" :status="session('status')" />
+
 <body>  
+    
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
@@ -124,6 +124,10 @@ button:hover {
         <p>
             Jika anda lupa dengan password yang anda gunakan, anda dapat melakukan reset password dengan membuat password yang baru. Silahkan masukkan email anda, kami akan mengirim link untuk reset password.
         </p>
+
+        <!-- Session Status -->
+        <x-auth-session-status class="mb-4" :status="session('status')" />
+
         <label for="email">{{ __('Email') }}</label>
         <input type="email" placeholder="Masukkan Email" id="email" name="email" value="{{ old('email') }}" required autofocus>
 

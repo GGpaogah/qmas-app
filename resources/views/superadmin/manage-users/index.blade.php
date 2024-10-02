@@ -183,7 +183,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Menampilkan {{ $users->count() }} dari {{ $users->total() }} item</p>
+                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Menampilkan {{ $users->count() }} dari {{ $users->total() }} user</p>
                                 </div>
                                 <div class="col-md-6">
                                     <nav class="d-lg-flex justify-content-lg-end">
