@@ -131,7 +131,7 @@
                     </div>
 
                     <!-- Dynamic Progress Bars for Stok Per Produk -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6 col-xl-3 mb-4">
                             <div class="card shadow border-start-primary py-2">
                                 <div class="card-body">
@@ -183,7 +183,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- <div class="col-lg-12 flex-grow-1 mb-4">
                             <div class="card shadow border-start-primary py-2">
                                 <div class="card-header py-3">
