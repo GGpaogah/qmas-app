@@ -192,7 +192,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="tujuan_gudang_mutasi" class="col-sm-2 col-form-label">Tujuan Gudang Mutasi</label>
                                         <div class="col-sm-3">
-                                        <select class="form-select" id="tujuan_gudang_mutasi" name="tujuan_gudang_mutasi" required>
+                                        <select class="form-select" id="tujuan_gudang_mutasi" name="tujuan_gudang_mutasi">
                                             <option disabled selected value="">Pilih Gudang Tujuan</option>
                                             <option value="Gudang Babat">Gudang Babat</option>
                                             <option value="Gudang Turen">Gudang Turen</option>
