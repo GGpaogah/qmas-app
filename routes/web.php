@@ -10,9 +10,24 @@ use App\Http\Controllers\SuperAdmin\TampilGudangMasukController;
 use App\Http\Controllers\SuperAdmin\TampilGudangKeluarController;
 use App\Http\Controllers\Admin\AdminGudangController;
 use App\Http\Controllers\Admin\ProfileAdminController;
+use Illuminate\Support\Facades\Auth;
 
 // Halaman login default
 Route::get('/', function () {
+    // Periksa apakah pengguna sudah login
+    if (Auth::check()) {
+        // Jika user sudah login, arahkan ke dashboard berdasarkan tipe user
+        $user = Auth::user();
+        if ($user->usertype === 'superadmin') {
+            return redirect()->route('superadmin.dashboard');
+        } elseif ($user->usertype === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->usertype === 'user') {
+            return redirect()->route('user.dashboard');
+        }
+    }
+
+    // Jika belum login, arahkan ke halaman login
     return view('auth.login');
 });
 
