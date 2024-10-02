@@ -210,17 +210,17 @@
 
                                     <!-- Asal Gudang Mutasi -->
                                     <div class="form-group row mt-3">
-                                    <label for="tujuan_gudang_mutasi" class="col-sm-2 col-form-label">Tujuan Gudang Mutasi</label>
-                                    <div class="col-sm-3">
-                                        <select class="form-select" id="tujuan_gudang_mutasi" name="tujuan_gudang_mutasi" required>
-                                            <option disabled selected value="">Pilih Gudang Tujuan</option>
-                                            <option value="babat">Gudang Babat</option>
-                                            <option value="turen">Gudang Turen</option>
-                                            <option value="kalimetro">Gudang Kalimetro</option>
-                                            <option value="cengger">Gudang Cengger</option>
-                                            <option value="nganjuk">Gudang Nganjuk</option>
-                                        </select>
-                                    </div>
+                                        <label for="tujuan_gudang_mutasi" class="col-sm-2 col-form-label">Tujuan Gudang Mutasi</label>
+                                        <div class="col-sm-3">
+                                            <select class="form-select" id="tujuan_gudang_mutasi" name="tujuan_gudang_mutasi">
+                                                <option disabled selected value="">Pilih Gudang Tujuan</option>
+                                                <option value="babat">Gudang Babat</option>
+                                                <option value="turen">Gudang Turen</option>
+                                                <option value="kalimetro">Gudang Kalimetro</option>
+                                                <option value="cengger">Gudang Cengger</option>
+                                                <option value="nganjuk">Gudang Nganjuk</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <!-- CSR -->
@@ -251,7 +251,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="rusak_retur_ke_pabrik" class="col-sm-2 col-form-label">Rusak Retur Ke Pabrik</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="rusak_retur_ke_pabrik" name="rusak_retur_ke_pabrik" placeholder="Rusak Retur Ke Pabrik">
+                                            <input type="text" inputmode="numeric" class="form-control" id="rusak_retur_ke_pabrik" name="rusak_retur_ke_pabrik" placeholder="Rusak Retur Ke Pabrik" required>
                                         </div>
                                     </div>
 
@@ -304,19 +304,34 @@
 
         // Update Tujuan Gudang Mutasi dropdown based on selected Gudang
         document.addEventListener('DOMContentLoaded', function () {
-        // Gudang admin yang sedang login, ini dari PHP yang dioper ke JavaScript
-        const gudangAdmin = "{{ strtolower($gudang) }}"; 
+            const gudangSelect = document.getElementById('gudang');
+            const tujuanGudangSelect = document.getElementById('tujuan_gudang_mutasi');
 
-        // Dropdown tujuan gudang mutasi
-        const tujuanGudangSelect = document.getElementById('tujuan_gudang_mutasi');
+            function updateGudangOptions() {
+                const selectedGudang = gudangSelect.value;
 
-        // Filter out the gudang yang sama dengan admin
-        Array.from(tujuanGudangSelect.options).forEach(option => {
-            if (option.value.toLowerCase() === gudangAdmin.toLowerCase()) {
-                option.remove(); // Hapus opsi yang sama dengan gudang admin
+                // Reset options in tujuan_gudang_mutasi
+                tujuanGudangSelect.innerHTML = `
+                    <option disabled selected value=" ">Pilih Gudang Tujuan</option>
+                    <option value="babat">Gudang Babat</option>
+                    <option value="turen">Gudang Turen</option>
+                    <option value="kalimetro">Gudang Kalimetro</option>
+                    <option value="cengger">Gudang Cengger</option>
+                    <option value="nganjuk">Gudang Nganjuk</option>
+                `;
+
+                // Hapus opsi gudang yang dipilih
+                Array.from(tujuanGudangSelect.options).forEach(option => {
+                    if (option.value.toLowerCase() === selectedGudang.toLowerCase()) {
+                        option.remove();
+                    }
+                });
             }
+
+            // Jalankan fungsi saat halaman dimuat dan dropdown berubah
+            updateGudangOptions();
+            gudangSelect.addEventListener('change', updateGudangOptions);
         });
-    });
     </script>
 </body>
 
