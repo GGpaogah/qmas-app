@@ -196,7 +196,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="jumlah_penjualan" class="col-sm-2 col-form-label">Jumlah Penjualan</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_penjualan" name="jumlah_penjualan" placeholder="Jumlah Penjualan" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_penjualan" name="jumlah_penjualan" placeholder="Jumlah Penjualan">
                                         </div>
                                     </div>
 
@@ -204,30 +204,30 @@
                                     <div class="form-group row mt-3">
                                         <label for="jumlah_di_mutasi" class="col-sm-2 col-form-label">Jumlah Dimutasi</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_di_mutasi" name="jumlah_di_mutasi" placeholder="Jumlah Di Mutasi" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_di_mutasi" name="jumlah_di_mutasi" placeholder="Jumlah Di Mutasi">
                                         </div>
                                     </div>
 
                                     <!-- Asal Gudang Mutasi -->
                                     <div class="form-group row mt-3">
-                                        <label for="tujuan_gudang_mutasi" class="col-sm-2 col-form-label">Tujuan Gudang Mutasi</label>
-                                        <div class="col-sm-3">
-                                            <select class="form-select" id="tujuan_gudang_mutasi" name="tujuan_gudang_mutasi" required>
-                                                <option disabled selected value="">Pilih Gudang Tujuan</option>
-                                                <option value="babat">Gudang Babat</option>
-                                                <option value="turen">Gudang Turen</option>
-                                                <option value="kalimetro">Gudang Kalimetro</option>
-                                                <option value="cengger">Gudang Cengger</option>
-                                                <option value="nganjuk">Gudang Nganjuk</option>
-                                            </select>
-                                        </div>
+                                    <label for="tujuan_gudang_mutasi" class="col-sm-2 col-form-label">Tujuan Gudang Mutasi</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-select" id="tujuan_gudang_mutasi" name="tujuan_gudang_mutasi" required>
+                                            <option disabled selected value="">Pilih Gudang Tujuan</option>
+                                            <option value="babat">Gudang Babat</option>
+                                            <option value="turen">Gudang Turen</option>
+                                            <option value="kalimetro">Gudang Kalimetro</option>
+                                            <option value="cengger">Gudang Cengger</option>
+                                            <option value="nganjuk">Gudang Nganjuk</option>
+                                        </select>
+                                    </div>
                                     </div>
 
                                     <!-- CSR -->
                                     <div class="form-group row mt-3">
                                         <label for="csr" class="col-sm-2 col-form-label">CSR</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="csr" name="CSR" placeholder="CSR" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="csr" name="CSR" placeholder="CSR">
                                         </div>
                                     </div>
 
@@ -235,7 +235,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="promo" class="col-sm-2 col-form-label">Promo</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="promo" name="promo" placeholder="Promo" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="promo" name="promo" placeholder="Promo">
                                         </div>
                                     </div>
 
@@ -243,7 +243,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="rusak" class="col-sm-2 col-form-label">Rusak</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="rusak" name="rusak" placeholder="Rusak" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="rusak" name="rusak" placeholder="Rusak">
                                         </div>
                                     </div>
 
@@ -251,7 +251,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="rusak_retur_ke_pabrik" class="col-sm-2 col-form-label">Rusak Retur Ke Pabrik</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="rusak_retur_ke_pabrik" name="rusak_retur_ke_pabrik" placeholder="Rusak Retur Ke Pabrik" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="rusak_retur_ke_pabrik" name="rusak_retur_ke_pabrik" placeholder="Rusak Retur Ke Pabrik">
                                         </div>
                                     </div>
 
@@ -304,34 +304,19 @@
 
         // Update Tujuan Gudang Mutasi dropdown based on selected Gudang
         document.addEventListener('DOMContentLoaded', function () {
-            const gudangSelect = document.getElementById('gudang');
-            const tujuanGudangSelect = document.getElementById('tujuan_gudang_mutasi');
+        // Gudang admin yang sedang login, ini dari PHP yang dioper ke JavaScript
+        const gudangAdmin = "{{ strtolower($gudang) }}"; 
 
-            function updateGudangOptions() {
-                const selectedGudang = gudangSelect.value;
+        // Dropdown tujuan gudang mutasi
+        const tujuanGudangSelect = document.getElementById('tujuan_gudang_mutasi');
 
-                // Reset options in tujuan_gudang_mutasi
-                tujuanGudangSelect.innerHTML = `
-                    <option disabled selected value=" ">Pilih Gudang Tujuan</option>
-                    <option value="babat">Gudang Babat</option>
-                    <option value="turen">Gudang Turen</option>
-                    <option value="kalimetro">Gudang Kalimetro</option>
-                    <option value="cengger">Gudang Cengger</option>
-                    <option value="nganjuk">Gudang Nganjuk</option>
-                `;
-
-                // Hapus opsi gudang yang dipilih
-                Array.from(tujuanGudangSelect.options).forEach(option => {
-                    if (option.value.toLowerCase() === selectedGudang.toLowerCase()) {
-                        option.remove();
-                    }
-                });
+        // Filter out the gudang yang sama dengan admin
+        Array.from(tujuanGudangSelect.options).forEach(option => {
+            if (option.value.toLowerCase() === gudangAdmin.toLowerCase()) {
+                option.remove(); // Hapus opsi yang sama dengan gudang admin
             }
-
-            // Jalankan fungsi saat halaman dimuat dan dropdown berubah
-            updateGudangOptions();
-            gudangSelect.addEventListener('change', updateGudangOptions);
         });
+    });
     </script>
 </body>
 

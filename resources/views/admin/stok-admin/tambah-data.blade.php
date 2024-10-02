@@ -176,7 +176,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="jumlah_dari_pabrik" class="col-sm-2 col-form-label">Jumlah dari Pabrik</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_dari_pabrik" name="jumlah_dari_pabrik" placeholder="Jumlah dari Pabrik" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_dari_pabrik" name="jumlah_dari_pabrik" placeholder="Jumlah dari Pabrik">
                                         </div>
                                     </div>
 
@@ -184,7 +184,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="jumlah_dari_mutasi" class="col-sm-2 col-form-label">Jumlah dari Mutasi</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_dari_mutasi" name="jumlah_dari_mutasi" placeholder="Jumlah dari Mutasi" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_dari_mutasi" name="jumlah_dari_mutasi" placeholder="Jumlah dari Mutasi">
                                         </div>
                                     </div>
 
@@ -192,7 +192,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="nama_gudang_mutasi" class="col-sm-2 col-form-label">Gudang Mutasi</label>
                                         <div class="col-sm-3">
-                                            <select class="form-select" id="nama_gudang_mutasi" name="nama_gudang_mutasi" required>
+                                            <select class="form-select" id="nama_gudang_mutasi" name="nama_gudang_mutasi"   >
                                                 <option disabled selected value=" ">Pilih Asal Gudang</option>
                                                 <option value="Gudang Babat">Gudang Babat</option>
                                                 <option value="Gudang Turen">Gudang Turen</option>

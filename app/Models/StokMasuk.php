@@ -9,6 +9,8 @@ class StokMasuk extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     // Remove the constructor and set the default table name to null
     protected $table;
 

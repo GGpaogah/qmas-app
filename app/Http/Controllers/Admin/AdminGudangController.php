@@ -99,19 +99,15 @@ class AdminGudangController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'jumlah_dari_pabrik' => 'required|integer',
-            'jumlah_dari_mutasi' => 'required|integer',
+            'jumlah_dari_pabrik' => 'nullable|integer|min:0', // Nullable, default 0 jika tidak diisi
+            'jumlah_dari_mutasi' => 'nullable|integer|min:0', // Nullable, default 0 jika tidak diisi
             'tipe_produk' => 'required|string|max:255',
-            'retur_konsumen' => 'required|integer',
-            'barang_repack' => 'required|integer',
+            'retur_konsumen' => 'nullable|integer|min:0', // Nullable, default 0 jika tidak diisi
+            'barang_repack' => 'nullable|integer|min:0', // Nullable, default 0 jika tidak diisi
             
         ], [
             'gudang.required' => 'Gudang harus dipilih.',
-            'jumlah_dari_pabrik.required' => 'Jumlah dari pabrik harus diisi.',
-            'jumlah_dari_mutasi.required' => 'Jumlah dari mutasi harus diisi.',
             'tipe_produk.required' => 'Tipe produk harus dipilih.',
-            'retur_konsumen.required' => 'Retur konsumen harus diisi.',
-            'barang_repack.required' => 'Barang repack harus diisi.',
         ]);
 
         $gudang = strtolower(Auth::user()->gudang);
@@ -139,12 +135,12 @@ class AdminGudangController extends Controller
             // Insert record stok masuk baru
             $stokMasuk->create([
                 'tanggal' => now(),
-                'jumlah_dari_pabrik' => $request->input('jumlah_dari_pabrik'),
-                'jumlah_dari_mutasi' => $request->input('jumlah_dari_mutasi'),
+                'jumlah_dari_pabrik' => $request->input('jumlah_dari_pabrik', 0),
+                'jumlah_dari_mutasi' => $request->input('jumlah_dari_mutasi', 0),
                 'tipe_produk' => $tipeProduk,
-                'nama_gudang_mutasi' => $request->input('nama_gudang_mutasi'), // Pastikan field ini ada di form
-                'retur_konsumen' => $request->input('retur_konsumen'),
-                'barang_repack' => $request->input('barang_repack'),
+                'nama_gudang_mutasi' => $request->input('nama_gudang_mutasi', 'Tidak ada mutasi'), // Pastikan field ini ada di form
+                'retur_konsumen' => $request->input('retur_konsumen', 0),
+                'barang_repack' => $request->input('barang_repack', 0),
                 'jumlah' => $jumlah,
                 'stok_akhir' => $stokAkhir, // Stok akhir untuk produk yang sama
                 'total_keseluruhan' => $totalKeseluruhan, // Total keseluruhan stok untuk semua produk
@@ -164,14 +160,16 @@ class AdminGudangController extends Controller
             return redirect()->back()->with(['error' => 'Gagal menyimpan stok masuk: ' . $e->getMessage()]);
         }
     }
-    public function out(){
+    public function out()
+    {
+        // Mengambil gudang admin yang login
         $gudang = Auth::user()->gudang;
-
+    
         // Cek apakah nama gudang valid
         if (!$gudang) {
             return redirect()->back()->with('error', 'Gudang tidak ditemukan');
         }
-
+    
         return view('admin.stok-admin.keluar-data', compact('gudang'));
     }
 
@@ -181,15 +179,16 @@ class AdminGudangController extends Controller
     // Validasi input
     $validatedData = $request->validate([
         'tipe_produk' => 'required|string|max:255',
-        'jumlah_penjualan' => 'required|integer',
-        'jumlah_di_mutasi' => 'required|integer',
-        'tujuan_gudang_mutasi' => 'required|string|max:255',
-        'CSR' => 'required|integer',
-        'promo' => 'required|integer',
-        'rusak' => 'required|integer',
-        'rusak_retur_ke_pabrik' => 'required|integer',
+        'jumlah_penjualan' => 'nullable|integer|min:0', // Dapat null dan default 0
+        'jumlah_di_mutasi' => 'nullable|integer|min:0', // Mutasi bisa null dan default 0
+        'tujuan_gudang_mutasi' => 'nullable|string|max:255', // Tujuan mutasi opsional
+        'CSR' => 'nullable|integer|min:0', // Opsional dengan default 0
+        'promo' => 'nullable|integer|min:0', // Opsional dengan default 0
+        'rusak' => 'nullable|integer|min:0', // Opsional dengan default 0
+        'rusak_retur_ke_pabrik' => 'nullable|integer|min:0', // Opsional dengan default 0
+        'keterangan' => 'nullable|string|max:255', // Tujuan mutasi opsional
     ], [
-        'jumlah_di_mutasi.required' => 'Jumlah di mutasi wajib diisi.',
+        'gudang.required' => 'Gudang harus dipilih.',
         'tipe_produk.required' => 'Tipe produk harus dipilih.',
     ]);
 
@@ -227,15 +226,17 @@ class AdminGudangController extends Controller
         DB::table($tableName)->insert([
             'tanggal' => now(),
             'tipe_produk' => $request->input('tipe_produk'),
-            'jumlah_penjualan' => $request->input('jumlah_penjualan'),
-            'jumlah_di_mutasi' => $request->input('jumlah_di_mutasi'),
-            'tujuan_gudang_mutasi' => $request->input('tujuan_gudang_mutasi'),
-            'CSR' => $request->input('CSR'),
-            'promo' => $request->input('promo'),
-            'rusak' => $request->input('rusak'),
-            'rusak_retur_ke_pabrik' => $request->input('rusak_retur_ke_pabrik'),
-            'keterangan' => $request->input('keterangan'),
+            'jumlah_penjualan' => $request->input('jumlah_penjualan',0),
+            'jumlah_di_mutasi' => $request->input('jumlah_di_mutasi',0),
+            'tujuan_gudang_mutasi' => $request->input('tujuan_gudang_mutasi', 'Tidak ada tujuan mutasi'), // Default jika tidak ada mutasi
+            'CSR' => $request->input('CSR',0),
+            'promo' => $request->input('promo',0),
+            'rusak' => $request->input('rusak',0),
+            'rusak_retur_ke_pabrik' => $request->input('rusak_retur_ke_pabrik',0),
+            'keterangan' => $request->filled('keterangan') ? $request->input('keterangan') : 'Tidak ada Keterangan CSR',
             'jumlah' => $totalKeluar, // Jumlah total keluar
+            'created_at'=> now(),
+            'updated_at'=> now(),
         ]);
 
         // Kurangi stok_akhir pada tabel stok_masuk untuk tipe_produk yang dipilih

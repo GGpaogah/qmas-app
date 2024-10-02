@@ -196,7 +196,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="jumlah_dari_pabrik" class="col-sm-2 col-form-label">Jumlah dari Pabrik</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_dari_pabrik" name="jumlah_dari_pabrik" placeholder="Jumlah dari Pabrik" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_dari_pabrik" name="jumlah_dari_pabrik" placeholder="Jumlah dari Pabrik">
                                         </div>
                                     </div>
 
@@ -204,15 +204,15 @@
                                     <div class="form-group row mt-3">
                                         <label for="jumlah_dari_mutasi" class="col-sm-2 col-form-label">Jumlah dari Mutasi</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_dari_mutasi" name="jumlah_dari_mutasi" placeholder="Jumlah dari Mutasi" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="jumlah_dari_mutasi" name="jumlah_dari_mutasi" placeholder="Jumlah dari Mutasi">
                                         </div>
                                     </div>
 
                                     <!-- Asal Gudang Mutasi -->
                                     <div class="form-group row mt-3">
-                                        <label for="asal_gudang" class="col-sm-2 col-form-label">Asal Gudang Mutasi</label>
+                                        <label for="nama_gudang_mutasi" class="col-sm-2 col-form-label">Asal Gudang Mutasi</label>
                                         <div class="col-sm-3">
-                                            <select class="form-select" id="asal_gudang" name="nama_gudang_mutasi" required>
+                                            <select class="form-select" id="nama_gudang_mutasi" name="nama_gudang_mutasi" required>
                                                 <option disabled selected value=" ">Pilih Asal Gudang</option>
                                                 <option value="Gudang Babat">Gudang Babat</option>
                                                 <option value="Gudang Turen">Gudang Turen</option>
@@ -227,7 +227,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="retur_konsumen" class="col-sm-2 col-form-label">Retur Konsumen</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="retur_konsumen" name="retur_konsumen" placeholder="Retur Konsumen" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="retur_konsumen" name="retur_konsumen" placeholder="Retur Konsumen">
                                         </div>
                                     </div>
 
@@ -235,7 +235,7 @@
                                     <div class="form-group row mt-3">
                                         <label for="barang_repack" class="col-sm-2 col-form-label">Repack</label>
                                         <div class="col-sm-3">
-                                            <input type="text" inputmode="numeric" class="form-control" id="barang_repack" name="barang_repack" placeholder="Barang Repack" required>
+                                            <input type="text" inputmode="numeric" class="form-control" id="barang_repack" name="barang_repack" placeholder="Barang Repack">
                                         </div>
                                     </div>
 
@@ -269,19 +269,19 @@
         <script src="{{ asset('assets/js/bs-init.js') }}"></script>
         <script src="{{ asset('assets/js/theme.js') }}"></script>
         <script>
-            // // JavaScript to hide alert after 3 seconds
-            // setTimeout(function () {
-            //     var alertElement = document.querySelector('.alert');
-            //     if (alertElement) {
-            //         var alert = new bootstrap.Alert(alertElement);
-            //         alert.close();
-            //     }
-            // }, 3000); // 3000 milliseconds = 3 seconds
+            // JavaScript to hide alert after 3 seconds
+            setTimeout(function () {
+                var alertElement = document.querySelector('.alert');
+                if (alertElement) {
+                    var alert = new bootstrap.Alert(alertElement);
+                    alert.close();
+                }
+            }, 10000); // 10000 milliseconds = 10 seconds
 
             // Update Asal Gudang Mutasi dropdown based on selected Gudang
            document.addEventListener('DOMContentLoaded', function () {
             const gudangSelect = document.getElementById('gudang');
-            const asalGudangSelect = document.getElementById('asal_gudang');
+            const asalGudangSelect = document.getElementById('nama_gudang_mutasi');
 
             function updateAsalGudangOptions() {
                 const selectedGudang = gudangSelect.value;

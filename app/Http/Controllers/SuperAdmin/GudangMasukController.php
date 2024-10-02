@@ -22,30 +22,31 @@ class GudangMasukController extends Controller
         // Validasi input
         $validatedData = $request->validate([
             'gudang' => 'required|string|max:255',
-            'jumlah_dari_pabrik' => 'required|integer',
-            'jumlah_dari_mutasi' => 'required|integer',
+            'jumlah_dari_pabrik' => 'nullable|integer|min:0', // Nullable, default 0 jika tidak diisi
+            'jumlah_dari_mutasi' => 'nullable|integer|min:0', // Nullable, default 0 jika tidak diisi
             'tipe_produk' => 'required|string|max:255',
-            'retur_konsumen' => 'required|integer',
-            'barang_repack' => 'required|integer',
-            
+            'retur_konsumen' => 'nullable|integer|min:0', // Nullable, default 0 jika tidak diisi
+            'barang_repack' => 'nullable|integer|min:0', // Nullable, default 0 jika tidak diisi
+            'nama_gudang_mutasi' => 'nullable|string|max:255', // Nama gudang mutasi tidak wajib
         ], [
             'gudang.required' => 'Gudang harus dipilih.',
-            'jumlah_dari_pabrik.required' => 'Jumlah dari pabrik harus diisi.',
-            'jumlah_dari_mutasi.required' => 'Jumlah dari mutasi harus diisi.',
             'tipe_produk.required' => 'Tipe produk harus dipilih.',
-            'retur_konsumen.required' => 'Retur konsumen harus diisi.',
-            'barang_repack.required' => 'Barang repack harus diisi.',
         ]);
 
+        // Ambil nilai dari form atau gunakan default 0 jika kosong
+        $jumlahDariPabrik = $request->input('jumlah_dari_pabrik', 0);
+        $jumlahDariMutasi = $request->input('jumlah_dari_mutasi', 0);
+        $returKonsumen = $request->input('retur_konsumen', 0);
+        $barangRepack = $request->input('barang_repack', 0);
+
+        // Ambil nilai 'nama_gudang_mutasi' langsung dari input form atau gunakan 'Tidak ada mutasi'
+        $namaGudangMutasi = $request->input('nama_gudang_mutasi', 'Tidak ada mutasi');
         $gudang = strtolower($request->input('gudang'));
         $tipeProduk = $request->input('tipe_produk');
         $stokMasuk = new StokMasuk([], $gudang);
 
         // Hitung total quantity
-        $jumlah = $request->input('jumlah_dari_pabrik')
-                + $request->input('jumlah_dari_mutasi')
-                + $request->input('retur_konsumen')
-                + $request->input('barang_repack');
+        $jumlah = $jumlahDariPabrik + $jumlahDariMutasi + $returKonsumen + $barangRepack;
 
         // Ambil stok akhir sebelumnya untuk tipe produk yang sama
         $stokSebelumnya = $stokMasuk->where('tipe_produk', $tipeProduk)->orderBy('tanggal', 'desc')->value('stok_akhir') ?? 0;
@@ -62,12 +63,12 @@ class GudangMasukController extends Controller
             // Insert record stok masuk baru
             $stokMasuk->create([
                 'tanggal' => now(),
-                'jumlah_dari_pabrik' => $request->input('jumlah_dari_pabrik'),
-                'jumlah_dari_mutasi' => $request->input('jumlah_dari_mutasi'),
+                'jumlah_dari_pabrik' => $jumlahDariPabrik,
+                'jumlah_dari_mutasi' => $jumlahDariMutasi,
                 'tipe_produk' => $tipeProduk,
-                'nama_gudang_mutasi' => $request->input('nama_gudang_mutasi'), // Pastikan field ini ada di form
-                'retur_konsumen' => $request->input('retur_konsumen'),
-                'barang_repack' => $request->input('barang_repack'),
+                'nama_gudang_mutasi' => $namaGudangMutasi,
+                'retur_konsumen' => $returKonsumen,
+                'barang_repack' => $barangRepack,
                 'jumlah' => $jumlah,
                 'stok_akhir' => $stokAkhir, // Stok akhir untuk produk yang sama
                 'total_keseluruhan' => $totalKeseluruhan, // Total keseluruhan stok untuk semua produk
@@ -83,7 +84,7 @@ class GudangMasukController extends Controller
             return redirect()->back()->with('success', 'Stok Masuk berhasil disimpan.');
         } catch (\Exception $e) {
             DB::rollback();
-
+            Log::error('Gagal menyimpan stok masuk: ' . $e->getMessage());
             return redirect()->back()->with(['error' => 'Gagal menyimpan stok masuk: ' . $e->getMessage()]);
         }
     }

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('ket', 255)->storedAs('IF(harga - pembayaran > 0, "Belum Lunas", "Lunas")');
         });
 
-        Schema::create('transaksi_cengger_ayam', function (Blueprint $table) {
+        Schema::create('transaksi_cengger', function (Blueprint $table) {
             $table->id();
             $table->timestamp('tanggal')->useCurrent()->useCurrentOnUpdate();
             $table->string('nama', 255);
